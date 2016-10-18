@@ -8,16 +8,10 @@
     tools:context="testat.hsr.gadgeothek.LoginActivity">
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/fragment">
 
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="testat.hsr.gadgeothek.layout.LoginFragment"
-            android:id="@+id/fragment"
-            tools:layout="@layout/fragment_login" />
-    </LinearLayout>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

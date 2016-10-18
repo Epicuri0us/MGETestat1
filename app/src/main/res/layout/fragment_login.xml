@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,13 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone" />
+        <TextView
+            android:text="Gadgeothek"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:id="@+id/textView3" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            app:srcCompat="@drawable/logo"
+            android:id="@+id/imageView" />
 
         <ScrollView
             android:id="@+id/login_form"
@@ -69,14 +76,13 @@
                     android:text="@string/action_sign_in_short"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/register_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="match_parent"
+                <TextView android:id="@+id/register"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_register"
-                    android:textStyle="bold" />
+                    android:layout_marginBottom="24dp"
+                    android:text="No account yet? Create one"
+                    android:gravity="center"
+                    android:textSize="16dp"/>
 
             </LinearLayout>
         </ScrollView>
