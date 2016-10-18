@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.hsr.mge.gadgeothek.domain.Gadget;
-import ch.hsr.mge.gadgeothek.domain.Loan;
-import ch.hsr.mge.gadgeothek.domain.Reservation;
+import testat.hsr.gadgeothek.domain.Gadget;
+import testat.hsr.gadgeothek.domain.Loan;
+import testat.hsr.gadgeothek.domain.Reservation;
 
 public class LibraryService {
     
