@@ -16,6 +16,7 @@ import java.util.List;
 
 import testat.hsr.gadgeothek.GadgetAdapter;
 import testat.hsr.gadgeothek.R;
+import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
@@ -27,6 +28,8 @@ public class GadgetListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private GadgetAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ItemSelectionListener itemSelectionCallback;
+    private int expandedPosition = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,11 +41,9 @@ public class GadgetListFragment extends Fragment {
         LibraryService.getGadgets(new Callback<List<Gadget>>() {
             @Override
             public void onCompletion(List<Gadget> input) {
-                Log.d(TAG, "onCompletion() called with: input = [" + input + "]");
                 mLayoutManager = new LinearLayoutManager(getActivity());
                 mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new GadgetAdapter(input);
-                mAdapter.setList(input);
+                mAdapter = new GadgetAdapter(input,itemSelectionCallback);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
@@ -56,5 +57,22 @@ public class GadgetListFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+
+        if (!(activity instanceof ItemSelectionListener)) {
+            throw new IllegalStateException("Activity must implement ItemSelectionListener");
+        }
+
+        itemSelectionCallback = (ItemSelectionListener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        itemSelectionCallback = null;
     }
 }

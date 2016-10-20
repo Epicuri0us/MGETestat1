@@ -9,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.layout.GadgetListFragment;
 
-public class GadgeothekActivity extends AppCompatActivity {
+public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
+
+    private int expandedPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,4 +30,8 @@ public class GadgeothekActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    @Override
+    public void onItemSelected(int position) {
+        int i = 0;
+    }
 }
