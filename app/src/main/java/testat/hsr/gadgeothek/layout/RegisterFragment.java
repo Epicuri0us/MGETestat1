@@ -36,7 +36,6 @@ public class RegisterFragment extends Fragment {
                         editName.getText().toString(),editMatrikelnummer.getText().toString());
             }
         });
-
         return root;
     }
 
