@@ -1,6 +1,5 @@
 package testat.hsr.gadgeothek;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,9 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import testat.hsr.gadgeothek.layout.ServerLoginFragment;
 import testat.hsr.gadgeothek.communication.LoginHelper;
 import testat.hsr.gadgeothek.communication.RegisterHelper;
 import testat.hsr.gadgeothek.layout.LoginFragment;
@@ -22,6 +21,7 @@ import testat.hsr.gadgeothek.service.LibraryService;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
         RegisterHelper, LoginHelper {
 
+    //used for logging
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Override
@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.register:
                 handleFragment(new RegisterFragment(),true);
                 break;
+            case R.id.serverButton:
+                handleFragment(new ServerLoginFragment(),true);
             default:
                 break;
         }
@@ -47,18 +49,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LibraryService.register(email, password, name, matrikelnummer, new Callback<Boolean>() {
             @Override
             public void onCompletion(Boolean input) {
-                Toast.makeText(getApplicationContext(), "Registration ok", Toast.LENGTH_SHORT).show();
-                LoginHelper(email,password);
+                //LoginHelper(email,password);
                 // TODO: 20.10.2016 test argumentübergabe mit backbutton (autofill in fragment)
                 //Intent intent = new Intent(getBaseContext(), GadgeothekActivity.class);
                 //startActivity(intent);
-                // FragmentManager fm = getSupportFragmentManager();
-                //fm.popBackStack();
+                Toast.makeText(getApplicationContext(), "Registration ok", Toast.LENGTH_SHORT).show();
+                FragmentManager fm = getSupportFragmentManager();
+                fm.popBackStack();
             }
 
             @Override
             public void onError(String message) {
                 Log.d(TAG, "onError() called with: message = [" + message + "]");
+                Toast.makeText(getApplicationContext(), "Error in Registration", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -68,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // TODO: 20.10.2016 example login, to be removed
         String userExample = "m@hsr.ch";
         String passwordExample = "12345";
+
+
         LibraryService.login(userExample, passwordExample, new Callback<Boolean>() {
             @Override
             public void onCompletion(Boolean input) {
@@ -79,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onError(String message) {
                 Log.d(TAG, "onError() called with: message = [" + message + "]");
+                Toast.makeText(getApplicationContext(), "Error in Login", Toast.LENGTH_LONG).show();
             }
         });
     }

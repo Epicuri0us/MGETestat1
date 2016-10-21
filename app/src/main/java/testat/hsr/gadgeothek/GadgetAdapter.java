@@ -13,13 +13,9 @@ import java.util.List;
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
 
-public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.ViewHolder>{
+public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetViewHolder>{
 
-    private List<Gadget> gadgetList;
-    private ItemSelectionListener selectionListener;
-    private int expandedPosition = -1;
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class GadgetViewHolder extends RecyclerView.ViewHolder {
         public View parent;
         public TextView view;
         public LinearLayout expandable;
@@ -28,20 +24,21 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.ViewHolder
         public TextView price;
         public TextView inventorynr;
 
-
-        public ViewHolder(View itemRoot, TextView view, TextView manufacturer,
-                          TextView condition, TextView price, TextView inventorynr,
-                          LinearLayout expandable) {
+        public GadgetViewHolder(View itemRoot) {
             super(itemRoot);
             this.parent = itemRoot;
-            this.view = view;
-            this.expandable = expandable;
-            this.manufacturer = manufacturer;
-            this.condition = condition;
-            this.price = price;
-            this.inventorynr = inventorynr;
+            this.view = (TextView)itemRoot.findViewById(R.id.textView);
+            this.expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
+            this.manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
+            this.condition = (TextView) itemRoot.findViewById(R.id.condition);
+            this.price = (TextView) itemRoot.findViewById(R.id.price);
+            this.inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
         }
     }
+
+    private List<Gadget> gadgetList;
+    private ItemSelectionListener selectionListener;
+    private int expandedPosition = -1;
 
 
     public GadgetAdapter(List<Gadget> gadgetList, ItemSelectionListener selectionListener){
@@ -50,22 +47,15 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.ViewHolder
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GadgetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.rowlayout,parent,false);
-        TextView textView = (TextView) v.findViewById(R.id.textView);
-        LinearLayout expandable = (LinearLayout) v.findViewById(R.id.expandableText);
-        TextView manufacturer = (TextView) v.findViewById(R.id.manufacturer);
-        TextView condition = (TextView) v.findViewById(R.id.condition);
-        TextView price = (TextView) v.findViewById(R.id.price);
-        TextView inventorynr = (TextView) v.findViewById(R.id.inventorynr);
-        ViewHolder viewHolder = new ViewHolder(v, textView,manufacturer,condition,
-                price,inventorynr,expandable);
+        GadgetViewHolder viewHolder = new GadgetViewHolder(v);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(GadgetViewHolder holder, final int position) {
         Gadget g = gadgetList.get(position);
         holder.view.setText(g.getName());
         holder.inventorynr.setText("Inventorynumber: " +g.getInventoryNumber());
@@ -82,13 +72,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.ViewHolder
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (expandedPosition >= 0) {
-                    int prev = expandedPosition;
-                    notifyItemChanged(prev);
-                }
-                // Set the current position to "expanded"
-                expandedPosition = position;
-                notifyItemChanged(expandedPosition);
+                handleExpansionFromGadget(position);
                 selectionListener.onItemSelected(position);
             }
         });
@@ -98,6 +82,21 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.ViewHolder
     public int getItemCount() {
         return gadgetList.size();
     }
+
+    private void handleExpansionFromGadget(int position){
+        if (expandedPosition >= 0) {
+            int prev = expandedPosition;
+            notifyItemChanged(prev);
+        }
+        // Set the current position to "expanded"
+        if(expandedPosition == position){
+            expandedPosition = -1;
+        }else{
+            expandedPosition = position;
+        }
+        notifyItemChanged(expandedPosition);
+    }
 }
+
 
 

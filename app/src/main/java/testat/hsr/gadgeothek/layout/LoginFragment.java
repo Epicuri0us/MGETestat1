@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import testat.hsr.gadgeothek.R;
@@ -30,6 +31,8 @@ public class LoginFragment extends Fragment {
         Button b = (Button)root.findViewById(R.id.email_sign_in_button);
         final EditText editMail = (EditText)root.findViewById(R.id.emailLogin);
         final EditText editPassword = (EditText)root.findViewById(R.id.passwordLogin);
+        root.findViewById(R.id.serverButton).
+                setOnClickListener((View.OnClickListener)getActivity());
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override

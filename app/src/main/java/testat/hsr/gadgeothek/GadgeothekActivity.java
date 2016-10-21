@@ -14,8 +14,6 @@ import testat.hsr.gadgeothek.layout.GadgetListFragment;
 
 public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
 
-    private int expandedPosition = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +30,6 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
 
     @Override
     public void onItemSelected(int position) {
-        int i = 0;
+        // TODO: 21.10.2016 Transition to new Fragment with detailView and reservation
     }
 }
