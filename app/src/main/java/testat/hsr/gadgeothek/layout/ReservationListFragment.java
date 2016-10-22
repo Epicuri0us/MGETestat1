@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import testat.hsr.gadgeothek.R;
 
-public class RegistrationListFragment extends Fragment {
+public class ReservationListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
