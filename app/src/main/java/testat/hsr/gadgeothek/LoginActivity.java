@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         LibraryService.setServerAddress("http://mge1.dev.ifs.hsr.ch/public");
-        handleFragment(new LoginFragment(), false);
+        handleFragment(new LoginFragment(),false);
     }
 
     public void onClick(View view){
@@ -114,10 +114,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleFragment(Fragment fragment, boolean replace){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        if(replace){
-            ft.replace(R.id.fragment,fragment).addToBackStack(null);
+        String backStateName = fragment.getClass().getName();
+        Fragment f = fm.findFragmentByTag(backStateName);
+
+        if(f == null){
+            if(replace){
+                ft.replace(R.id.fragment, fragment,backStateName);
+                ft.addToBackStack(backStateName);
+            }else{
+                ft.add(R.id.fragment,fragment,backStateName);
+            }
+
         }else{
-            ft.add(R.id.fragment,fragment);
+            ft.replace(R.id.fragment, f,backStateName);
+
         }
         ft.commit();
     }
