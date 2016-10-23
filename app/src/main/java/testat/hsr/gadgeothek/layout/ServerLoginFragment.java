@@ -22,6 +22,7 @@ public class ServerLoginFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_server_login, container, false);
 
         final EditText editServerAddress = (EditText)root.findViewById(R.id.serverAddress);
+        editServerAddress.setText(LibraryService.getServerAddress());
 
         root.findViewById(R.id.saveServerSettings).setOnClickListener(new View.OnClickListener() {
             @Override
