@@ -1,14 +1,19 @@
 package testat.hsr.gadgeothek;
 
 import android.os.Bundle;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.layout.GadgetListFragment;
@@ -32,17 +37,7 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.reservationmenu:
-                toolbar.setTitle("Reservations");
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new ReservationListFragment());
-                break;
-            case R.id.loansmenu:
-                toolbar.setTitle("Loans");
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new LoanListFragment());
+            case R.id.logoutmenu:
                 break;
         }
         return true;
@@ -73,7 +68,34 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Gadgets");
         setSupportActionBar(toolbar);
-        handleFragment(new GadgetListFragment());
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Gadgets"));
+        tabLayout.addTab(tabLayout.newTab().setText("Loans"));
+        tabLayout.addTab(tabLayout.newTab().setText("Reservations"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
