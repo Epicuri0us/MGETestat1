@@ -91,10 +91,12 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
         // Set the current position to "expanded"
         if(expandedPosition == position){
             expandedPosition = -1;
+            notifyItemChanged(expandedPosition);
         }else{
             expandedPosition = position;
+            notifyItemChanged(expandedPosition);
         }
-        notifyItemChanged(expandedPosition);
+
     }
 }
 

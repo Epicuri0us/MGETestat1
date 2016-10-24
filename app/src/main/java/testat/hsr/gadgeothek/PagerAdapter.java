@@ -29,10 +29,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 GadgetListFragment tab1 = new GadgetListFragment();
                 return tab1;
             case 1:
-                LoanListFragment tab2 = new LoanListFragment();
+                ReservationListFragment tab2 = new ReservationListFragment();
                 return tab2;
             case 2:
-                ReservationListFragment tab3 = new ReservationListFragment();
+                LoanListFragment tab3 = new LoanListFragment();
                 return tab3;
             default:
                 return null;

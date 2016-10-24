@@ -23,21 +23,28 @@ import testat.hsr.gadgeothek.layout.ReservationListFragment;
 public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
 
     private Toolbar toolbar;
+    private Menu menu;
+    private int itemextended = -1;
+    private ViewPager viewPager;
+    private MenuItem item;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.gadgeothek_menu, menu);
+        this.menu = menu;
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
             case R.id.logoutmenu:
+                super.onBackPressed();
+                break;
+            case R.id.addmenu:
+                item.setVisible(false);
+                viewPager.setCurrentItem(1);
                 break;
         }
         return true;
@@ -69,18 +76,18 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         toolbar.setTitle("Gadgets");
         setSupportActionBar(toolbar);
 
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Gadgets"));
-        tabLayout.addTab(tabLayout.newTab().setText("Loans"));
         tabLayout.addTab(tabLayout.newTab().setText("Reservations"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addTab(tabLayout.newTab().setText("Loans"));
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -100,27 +107,20 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
 
     @Override
     public void onItemSelected(int position) {
+        item = menu.findItem(R.id.addmenu);
+        if(itemextended == position){
+            itemextended = -1;
+            item.setVisible(false);
+        }
+        else{
+            itemextended = position;
+            item.setVisible(true);
+        }
+
         // TODO: 21.10.2016 Transition to new Fragment with detailView and reservation
     }
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        FragmentTransaction ft = fm.beginTransaction();
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            for(Fragment f: fm.getFragments()){
-                ft.remove(f);
-            }
-            handleFragment(new GadgetListFragment());
-            toolbar.setTitle("Gadgets");
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            //super.onBackPressed();
-        }
-
     }
 }
