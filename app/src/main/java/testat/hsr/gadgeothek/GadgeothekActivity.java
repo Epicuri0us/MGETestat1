@@ -30,46 +30,40 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                toolbar.setTitle("Gadgets");
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                getSupportFragmentManager().popBackStack();
+                onBackPressed();
                 break;
             case R.id.reservationmenu:
                 toolbar.setTitle("Reservations");
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new ReservationListFragment(),true);
+                handleFragment(new ReservationListFragment());
                 break;
             case R.id.loansmenu:
                 toolbar.setTitle("Loans");
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new LoanListFragment(), true);
+                handleFragment(new LoanListFragment());
                 break;
         }
         return true;
     }
 
-    private void handleFragment(Fragment fragment, boolean replace){
+    private void handleFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         String backStateName = fragment.getClass().getName();
         Fragment f = fm.findFragmentByTag(backStateName);
 
         if(f == null){
-            if(replace){
-                ft.replace(R.id.fragment, fragment,backStateName);
-                ft.addToBackStack(backStateName);
-            }else{
-                ft.add(R.id.fragment,fragment,backStateName);
-            }
-
+            ft.replace(R.id.fragment, fragment,backStateName);
+            ft.addToBackStack(backStateName);
         }else{
+            ft.remove(f);
+            ft.commit();
+            ft = fm.beginTransaction();
             ft.replace(R.id.fragment, f,backStateName);
-
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     @Override
@@ -79,11 +73,7 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Gadgets");
         setSupportActionBar(toolbar);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        GadgetListFragment fragment = new GadgetListFragment();
-        ft.add(R.id.fragment,fragment);
-        ft.commit();
+        handleFragment(new GadgetListFragment());
     }
 
     @Override
@@ -93,16 +83,21 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
 
     @Override
     public void onBackPressed() {
-
+        FragmentManager fm = getSupportFragmentManager();
         int count = getSupportFragmentManager().getBackStackEntryCount();
+        FragmentTransaction ft = fm.beginTransaction();
         if (count == 0) {
             super.onBackPressed();
             //additional code
         } else {
+            for(Fragment f: fm.getFragments()){
+                ft.remove(f);
+            }
+            handleFragment(new GadgetListFragment());
             toolbar.setTitle("Gadgets");
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            super.onBackPressed();
+            //super.onBackPressed();
         }
 
     }

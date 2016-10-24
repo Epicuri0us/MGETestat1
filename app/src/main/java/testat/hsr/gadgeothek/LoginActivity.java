@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch(item.getItemId()){
             case R.id.settingsmenu:
-                handleFragment(new ServerLoginFragment(),true);
+                handleFragment(new ServerLoginFragment());
         }
         return true;
     }
@@ -53,13 +53,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         LibraryService.setServerAddress("http://mge1.dev.ifs.hsr.ch/public");
-        handleFragment(new LoginFragment(),false);
+        handleFragment(new LoginFragment());
     }
 
     public void onClick(View view){
         switch(view.getId()){
             case R.id.register:
-                handleFragment(new RegisterFragment(),true);
+                handleFragment(new RegisterFragment());
                 break;
             default:
                 break;
@@ -111,24 +111,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void handleFragment(Fragment fragment, boolean replace){
+    private void handleFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         String backStateName = fragment.getClass().getName();
         Fragment f = fm.findFragmentByTag(backStateName);
 
         if(f == null){
-            if(replace){
-                ft.replace(R.id.fragment, fragment,backStateName);
-                ft.addToBackStack(backStateName);
-            }else{
-                ft.add(R.id.fragment,fragment,backStateName);
-            }
-
+            ft.replace(R.id.fragment, fragment,backStateName);
+            ft.addToBackStack(backStateName);
         }else{
             ft.replace(R.id.fragment, f,backStateName);
-
         }
+
+
         ft.commit();
     }
 }

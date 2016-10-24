@@ -15,7 +15,7 @@ public class ReservationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration_list, container, false);
+        return inflater.inflate(R.layout.fragment_reservation_list, container, false);
     }
 
 }
