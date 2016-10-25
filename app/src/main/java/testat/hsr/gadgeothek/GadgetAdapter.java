@@ -18,6 +18,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
     public class GadgetViewHolder extends RecyclerView.ViewHolder {
         public View parent;
         public TextView view;
+        public TextView nameInner;
         public LinearLayout expandable;
         public TextView manufacturer;
         public TextView condition;
@@ -28,6 +29,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
             super(itemRoot);
             this.parent = itemRoot;
             this.view = (TextView)itemRoot.findViewById(R.id.textView);
+            this.nameInner = (TextView)itemRoot.findViewById(R.id.gadgetNameInner);
             this.expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
             this.manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
             this.condition = (TextView) itemRoot.findViewById(R.id.condition);
@@ -58,14 +60,17 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
     public void onBindViewHolder(GadgetViewHolder holder, final int position) {
         Gadget g = gadgetList.get(position);
         holder.view.setText(g.getName());
+        holder.nameInner.setText(g.getName());
         holder.inventorynr.setText("Inventorynumber: " +g.getInventoryNumber());
         holder.price.setText("Price: "+ g.getPrice());
         holder.condition.setText("Condition: "+g.getCondition());
         holder.manufacturer.setText("Manufacturer: "+ g.getManufacturer());
 
         if (position == expandedPosition) {
+            holder.view.setVisibility(View.GONE);
             holder.expandable.setVisibility(View.VISIBLE);
         } else {
+            holder.view.setVisibility(View.VISIBLE);
             holder.expandable.setVisibility(View.GONE);
         }
 
