@@ -1,7 +1,6 @@
 package testat.hsr.gadgeothek.layout;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,26 +24,31 @@ import static android.content.ContentValues.TAG;
 
 public class GadgetListFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private GadgetAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView recyclerView;
+    private GadgetAdapter gadgetAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     private ItemSelectionListener itemSelectionCallback;
-    private int expandedPosition = -1;
+    private TextView noEntries;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_gadget_list, container, false);
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.RecyclerView);
-        mRecyclerView.setHasFixedSize(true);
+
+        noEntries = (TextView)root.findViewById(R.id.noGadgetEntries);
+
+        recyclerView = (RecyclerView) root.findViewById(R.id.RecyclerView);
+        recyclerView.setHasFixedSize(true);
         LibraryService.getGadgets(new Callback<List<Gadget>>() {
             @Override
             public void onCompletion(List<Gadget> input) {
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mAdapter = new GadgetAdapter(input,itemSelectionCallback);
-                mRecyclerView.setAdapter(mAdapter);
+                layoutManager = new LinearLayoutManager(getActivity());
+                recyclerView.setLayoutManager(layoutManager);
+                gadgetAdapter = new GadgetAdapter(input, itemSelectionCallback);
+                recyclerView.setAdapter(gadgetAdapter);
+
+                noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);
             }
 
             @Override
@@ -52,9 +56,6 @@ public class GadgetListFragment extends Fragment {
                 Log.d(TAG, "onError() called with: message = [" + message + "]");
             }
         });
-
-
-
 
         return root;
     }
