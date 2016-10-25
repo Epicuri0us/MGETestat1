@@ -1,6 +1,5 @@
 package testat.hsr.gadgeothek;
 
-import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
     @Override
     public GadgetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.rowlayout,parent,false);
+        View v = inflater.inflate(R.layout.gadget_layout,parent,false);
         GadgetViewHolder viewHolder = new GadgetViewHolder(v);
         return viewHolder;
     }
