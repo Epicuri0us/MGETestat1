@@ -87,27 +87,12 @@
                 android:paddingBottom="8dp"
                 android:id="@+id/inventorynr"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:id="@+id/loan"
-                    android:layout_alignParentRight="true"
-                    android:text="Loan"/>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:id="@+id/reserve"
-                    android:text="Reserve"/>
-
-            </LinearLayout>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/reserve"
+                android:text="Reserve"/>
 
         </LinearLayout>
 

@@ -1,6 +1,7 @@
 package testat.hsr.gadgeothek.layout;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import testat.hsr.gadgeothek.GadgetAdapter;
+import testat.hsr.gadgeothek.GadgetViewHolder;
+import testat.hsr.gadgeothek.ListAdapter;
+import testat.hsr.gadgeothek.LoanViewHolder;
 import testat.hsr.gadgeothek.R;
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
@@ -27,7 +31,7 @@ import static android.content.ContentValues.TAG;
 public class LoanListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private GadgetAdapter gadgetAdapter;
+    private ListAdapter listAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ItemSelectionListener itemSelectionCallback;
 
@@ -48,8 +52,8 @@ public class LoanListFragment extends Fragment {
             public void onCompletion(List<Loan> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                gadgetAdapter = new GadgetAdapter(getGadgetList(input), itemSelectionCallback);
-                recyclerView.setAdapter(gadgetAdapter);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, LoanViewHolder.class);
+                recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);
             }
@@ -63,13 +67,20 @@ public class LoanListFragment extends Fragment {
         return root;
     }
 
-    // Workaround; stream API is not available
-    private List<Gadget> getGadgetList(List<Loan> loans) {
-        List<Gadget> gadgets = new ArrayList<>();
-        for (Loan loan : loans) {
-            gadgets.add(loan.getGadget());
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+
+        if (!(activity instanceof ItemSelectionListener)) {
+            throw new IllegalStateException("Activity must implement ItemSelectionListener");
         }
 
-        return gadgets;
+        itemSelectionCallback = (ItemSelectionListener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        itemSelectionCallback = null;
     }
 }

@@ -79,8 +79,8 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Gadgets"));
-        tabLayout.addTab(tabLayout.newTab().setText("Loans"));
         tabLayout.addTab(tabLayout.newTab().setText("Reservations"));
+        tabLayout.addTab(tabLayout.newTab().setText("Loans"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);

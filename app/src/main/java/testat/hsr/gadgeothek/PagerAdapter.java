@@ -25,9 +25,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new GadgetListFragment();
             case 1:
-                return new LoanListFragment();
-            case 2:
                 return new ReservationListFragment();
+            case 2:
+                return new LoanListFragment();
         }
 
         return null;

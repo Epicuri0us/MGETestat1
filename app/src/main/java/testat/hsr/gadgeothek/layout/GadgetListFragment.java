@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import testat.hsr.gadgeothek.GadgetAdapter;
+import testat.hsr.gadgeothek.GadgetViewHolder;
+import testat.hsr.gadgeothek.ListAdapter;
 import testat.hsr.gadgeothek.R;
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
@@ -25,7 +27,7 @@ import static android.content.ContentValues.TAG;
 public class GadgetListFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private GadgetAdapter gadgetAdapter;
+    private ListAdapter listAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ItemSelectionListener itemSelectionCallback;
     private TextView noEntries;
@@ -45,8 +47,8 @@ public class GadgetListFragment extends Fragment {
             public void onCompletion(List<Gadget> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                gadgetAdapter = new GadgetAdapter(input, itemSelectionCallback);
-                recyclerView.setAdapter(gadgetAdapter);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class);
+                recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);
             }
