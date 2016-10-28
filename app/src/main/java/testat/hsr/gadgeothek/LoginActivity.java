@@ -90,12 +90,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void LoginHelper(String email, String password) {
-        // TODO: 20.10.2016 example login, to be removed
-        String userExample = "m@hsr.ch";
-        String passwordExample = "12345";
 
-
-        LibraryService.login(userExample, passwordExample, new Callback<Boolean>() {
+        LibraryService.login(email, password, new Callback<Boolean>() {
             @Override
             public void onCompletion(Boolean input) {
                 Toast.makeText(getApplicationContext(), "Login ok", Toast.LENGTH_SHORT).show();

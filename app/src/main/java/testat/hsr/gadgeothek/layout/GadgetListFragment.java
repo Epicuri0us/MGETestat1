@@ -1,7 +1,6 @@
 package testat.hsr.gadgeothek.layout;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,13 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
 import testat.hsr.gadgeothek.GadgetAdapter;
 import testat.hsr.gadgeothek.R;
-import testat.hsr.gadgeothek.communication.ItemSelectionListener;
+import testat.hsr.gadgeothek.communication.GadgetSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
@@ -28,7 +26,7 @@ public class GadgetListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private GadgetAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ItemSelectionListener itemSelectionCallback;
+    private GadgetSelectionListener itemSelectionCallback;
     private int expandedPosition = -1;
 
     @Override
@@ -63,11 +61,11 @@ public class GadgetListFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
 
-        if (!(activity instanceof ItemSelectionListener)) {
-            throw new IllegalStateException("Activity must implement ItemSelectionListener");
+        if (!(activity instanceof GadgetSelectionListener)) {
+            throw new IllegalStateException("Activity must implement GadgetSelectionListener");
         }
 
-        itemSelectionCallback = (ItemSelectionListener) activity;
+        itemSelectionCallback = (GadgetSelectionListener) activity;
     }
 
     @Override

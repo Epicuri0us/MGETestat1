@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import testat.hsr.gadgeothek.communication.ItemSelectionListener;
+import testat.hsr.gadgeothek.communication.GadgetSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
 
 public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetViewHolder>{
@@ -36,11 +36,11 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
     }
 
     private List<Gadget> gadgetList;
-    private ItemSelectionListener selectionListener;
+    private GadgetSelectionListener selectionListener;
     private int expandedPosition = -1;
 
 
-    public GadgetAdapter(List<Gadget> gadgetList, ItemSelectionListener selectionListener){
+    public GadgetAdapter(List<Gadget> gadgetList, GadgetSelectionListener selectionListener){
         this.gadgetList = gadgetList;
         this.selectionListener = selectionListener;
     }
@@ -72,7 +72,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
             @Override
             public void onClick(View v) {
                 handleExpansionFromGadget(position);
-                selectionListener.onItemSelected(position);
+                selectionListener.onGadgetSelected(position,gadgetList.get(position));
             }
         });
     }

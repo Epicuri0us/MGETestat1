@@ -3,22 +3,26 @@ package testat.hsr.gadgeothek;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.SparseArray;
+import android.view.View;
+import android.view.ViewGroup;
 
 import testat.hsr.gadgeothek.layout.GadgetListFragment;
 import testat.hsr.gadgeothek.layout.LoanListFragment;
 import testat.hsr.gadgeothek.layout.ReservationListFragment;
 
-/**
- * Created by LucaAdmin on 24.10.2016.
- */
-
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;
 
+
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+    }
+
+    public int getItemPosition(Object object){
+        return POSITION_NONE;
     }
 
     @Override

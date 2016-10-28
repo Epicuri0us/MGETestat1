@@ -1,6 +1,7 @@
 package testat.hsr.gadgeothek.layout;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import testat.hsr.gadgeothek.LoanAdapter;
 import testat.hsr.gadgeothek.R;
+import testat.hsr.gadgeothek.communication.LoanSelectionListener;
 import testat.hsr.gadgeothek.domain.Loan;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
@@ -25,6 +27,7 @@ public class LoanListFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private LoanSelectionListener itemSelectionCallback;
 
 
     @Override
@@ -41,7 +44,7 @@ public class LoanListFragment extends Fragment {
             public void onCompletion(List<Loan> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                adapter = new LoanAdapter(input);
+                adapter = new LoanAdapter(input,itemSelectionCallback);
                 recyclerView.setAdapter(adapter);
             }
 
@@ -51,6 +54,23 @@ public class LoanListFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    @Override
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+
+        if (!(activity instanceof LoanSelectionListener)) {
+            throw new IllegalStateException("Activity must implement GadgetSelectionListener");
+        }
+
+        itemSelectionCallback = (LoanSelectionListener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        itemSelectionCallback = null;
     }
 
 }
