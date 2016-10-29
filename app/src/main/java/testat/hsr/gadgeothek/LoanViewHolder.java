@@ -1,8 +1,12 @@
 package testat.hsr.gadgeothek;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Loan;
@@ -16,18 +20,25 @@ public class LoanViewHolder extends ItemViewHolder<Loan> {
     private TextView condition;
     private TextView price;
     private TextView inventorynr;
+    private TextView pickupDate;
+    private TextView returnDate;
+    private TextView overdue;
+
 
     public LoanViewHolder(View itemRoot) {
         super(itemRoot);
         this.setParent(itemRoot);
 
-        this.view = (TextView) itemRoot.findViewById(R.id.textView);
-        this.nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
-        this.expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
-        this.manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
-        this.condition = (TextView) itemRoot.findViewById(R.id.condition);
-        this.price = (TextView) itemRoot.findViewById(R.id.price);
-        this.inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        view = (TextView) itemRoot.findViewById(R.id.textView);
+        nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
+        expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
+        manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
+        condition = (TextView) itemRoot.findViewById(R.id.condition);
+        price = (TextView) itemRoot.findViewById(R.id.price);
+        inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        pickupDate = (TextView) itemRoot.findViewById(R.id.pickupDate);
+        returnDate = (TextView) itemRoot.findViewById(R.id.returnDate);
+        overdue = (TextView) itemRoot.findViewById(R.id.overdue);
     }
 
     @Override
@@ -39,6 +50,22 @@ public class LoanViewHolder extends ItemViewHolder<Loan> {
         price.setText(Double.toString(g.getPrice()));
         condition.setText(g.getCondition().toString());
         manufacturer.setText(g.getManufacturer());
+
+        Drawable overdueIcon = view.getContext().getResources().getDrawable(android.R.drawable.presence_away);
+        overdueIcon.setBounds(0, 0, 60, 60);
+
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD);
+        pickupDate.setText(dateFormat.format(loan.getPickupDate()));
+        try {
+            returnDate.setText(dateFormat.format(loan.getReturnDate()));
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        if(loan.isOverdue()) {
+            overdue.setVisibility(View.VISIBLE);
+            view.setCompoundDrawables(null, null, overdueIcon, null);
+        }
 
         if (expanded) {
             view.setVisibility(View.GONE);
