@@ -12,16 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import testat.hsr.gadgeothek.GadgetAdapter;
-import testat.hsr.gadgeothek.GadgetViewHolder;
 import testat.hsr.gadgeothek.ListAdapter;
 import testat.hsr.gadgeothek.LoanViewHolder;
 import testat.hsr.gadgeothek.R;
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
-import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Loan;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;

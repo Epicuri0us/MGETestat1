@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import testat.hsr.gadgeothek.GadgetAdapter;
 import testat.hsr.gadgeothek.GadgetViewHolder;
 import testat.hsr.gadgeothek.ListAdapter;
 import testat.hsr.gadgeothek.R;
