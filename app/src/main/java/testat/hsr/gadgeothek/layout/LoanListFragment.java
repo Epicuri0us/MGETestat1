@@ -1,6 +1,5 @@
 package testat.hsr.gadgeothek.layout;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import testat.hsr.gadgeothek.GadgeothekActivity;
 import testat.hsr.gadgeothek.ListAdapter;
 import testat.hsr.gadgeothek.LoanViewHolder;
 import testat.hsr.gadgeothek.R;
@@ -24,18 +24,16 @@ import testat.hsr.gadgeothek.service.LibraryService;
 
 import static android.content.ContentValues.TAG;
 
-public class LoanListFragment extends Fragment {
+public class LoanListFragment extends ListFragment {
 
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ItemSelectionListener itemSelectionCallback;
-
     private TextView noEntries;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
         View root = inflater.inflate(R.layout.fragment_loan_list, container, false);
 
@@ -48,7 +46,7 @@ public class LoanListFragment extends Fragment {
             public void onCompletion(List<Loan> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, LoanViewHolder.class, R.layout.loan_rowlayout);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, LoanViewHolder.class, R.layout.loan_rowlayout, activity.getPagerAdapter());
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);
@@ -61,22 +59,5 @@ public class LoanListFragment extends Fragment {
         });
 
         return root;
-    }
-
-    @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
-
-        if (!(activity instanceof ItemSelectionListener)) {
-            throw new IllegalStateException("Activity must implement ItemSelectionListener");
-        }
-
-        itemSelectionCallback = (ItemSelectionListener) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        itemSelectionCallback = null;
     }
 }

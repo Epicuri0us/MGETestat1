@@ -1,6 +1,8 @@
 package testat.hsr.gadgeothek;
 
+import android.app.Activity;
 import android.support.annotation.LayoutRes;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,22 +15,26 @@ import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 
 public class ListAdapter<ViewHolder extends ItemViewHolder, Item> extends RecyclerView.Adapter<ViewHolder>{
 
+    private ViewGroup parent;
     private Class<ViewHolder> viewHolderClass;
     private List<Item> itemList;
     private ItemSelectionListener selectionListener;
     private int expandedPosition = -1;
     private ViewHolder holder;
     private int rowlayout;
+    private PagerAdapter pagerAdapter;
 
-    public ListAdapter(List<Item> itemList, ItemSelectionListener selectionListener, Class<ViewHolder> holderClass, @LayoutRes int rowlayout){
+    public ListAdapter(List<Item> itemList, ItemSelectionListener selectionListener, Class<ViewHolder> holderClass, @LayoutRes int rowlayout, PagerAdapter pagerAdapter){
         this.itemList = itemList;
         this.selectionListener = selectionListener;
         this.viewHolderClass = holderClass;
         this.rowlayout = rowlayout;
+        this.pagerAdapter = pagerAdapter;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.parent = parent;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(rowlayout, parent, false);
         try {
@@ -74,6 +80,6 @@ public class ListAdapter<ViewHolder extends ItemViewHolder, Item> extends Recycl
     }
 
     public void refresh() {
-        // TODO: Refresh list
+        pagerAdapter.notifyDataSetChanged();
     }
 }

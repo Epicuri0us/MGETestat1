@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import testat.hsr.gadgeothek.GadgeothekActivity;
 import testat.hsr.gadgeothek.GadgetViewHolder;
 import testat.hsr.gadgeothek.ListAdapter;
+import testat.hsr.gadgeothek.PagerAdapter;
 import testat.hsr.gadgeothek.R;
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
@@ -23,18 +25,17 @@ import testat.hsr.gadgeothek.service.LibraryService;
 
 import static android.content.ContentValues.TAG;
 
-public class GadgetListFragment extends Fragment {
+public class GadgetListFragment extends ListFragment {
 
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ItemSelectionListener itemSelectionCallback;
     private TextView noEntries;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View root = inflater.inflate(R.layout.fragment_gadget_list, container, false);
 
         noEntries = (TextView)root.findViewById(R.id.noGadgetEntries);
@@ -46,7 +47,7 @@ public class GadgetListFragment extends Fragment {
             public void onCompletion(List<Gadget> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class, R.layout.gadget_rowlayout);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class, R.layout.gadget_rowlayout, activity.getPagerAdapter());
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);
@@ -59,22 +60,5 @@ public class GadgetListFragment extends Fragment {
         });
 
         return root;
-    }
-
-    @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
-
-        if (!(activity instanceof ItemSelectionListener)) {
-            throw new IllegalStateException("Activity must implement ItemSelectionListener");
-        }
-
-        itemSelectionCallback = (ItemSelectionListener) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        itemSelectionCallback = null;
     }
 }

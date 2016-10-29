@@ -20,6 +20,7 @@ import testat.hsr.gadgeothek.layout.ReservationListFragment;
 public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
 
     private Toolbar toolbar;
+    private PagerAdapter pagerAdapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,13 +85,14 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
-        final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        this.pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                pagerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -124,6 +126,7 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             //super.onBackPressed();
         }
-
     }
+
+    public PagerAdapter getPagerAdapter() { return pagerAdapter; }
 }
