@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Reservation;
 
@@ -17,6 +20,8 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
     private TextView condition;
     private TextView price;
     private TextView inventorynr;
+    private TextView reservationDate;
+    private TextView waitingPosition;
 
     public ReservationViewHolder(View itemRoot) {
         super(itemRoot);
@@ -29,6 +34,8 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
         this.condition = (TextView) itemRoot.findViewById(R.id.condition);
         this.price = (TextView) itemRoot.findViewById(R.id.price);
         this.inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        this.reservationDate = (TextView) itemRoot.findViewById(R.id.reservationDate);
+        this.waitingPosition = (TextView) itemRoot.findViewById(R.id.waitingPosition);
     }
 
     @Override
@@ -50,6 +57,10 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
         price.setText(Double.toString(g.getPrice()));
         condition.setText(g.getCondition().toString());
         manufacturer.setText(g.getManufacturer());
+
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD);
+        reservationDate.setText(dateFormat.format(reservation.getReservationDate()));
+        waitingPosition.setText(Integer.toString(reservation.getWatingPosition()));
 
         if (expanded) {
             view.setVisibility(View.GONE);
