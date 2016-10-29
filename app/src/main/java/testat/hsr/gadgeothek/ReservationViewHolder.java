@@ -2,14 +2,18 @@ package testat.hsr.gadgeothek;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Reservation;
+import testat.hsr.gadgeothek.service.Callback;
+import testat.hsr.gadgeothek.service.LibraryService;
 
 public class ReservationViewHolder extends ItemViewHolder<Reservation> {
 
@@ -22,25 +26,27 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
     private TextView inventorynr;
     private TextView reservationDate;
     private TextView waitingPosition;
+    private Button cancelReservationButton;
 
-    public ReservationViewHolder(View itemRoot) {
-        super(itemRoot);
+    public ReservationViewHolder(View itemRoot, ListAdapter listAdapter) {
+        super(itemRoot, listAdapter);
         this.setParent(itemRoot);
 
-        this.view = (TextView) itemRoot.findViewById(R.id.textView);
-        this.nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
-        this.expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
-        this.manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
-        this.condition = (TextView) itemRoot.findViewById(R.id.condition);
-        this.price = (TextView) itemRoot.findViewById(R.id.price);
-        this.inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
-        this.reservationDate = (TextView) itemRoot.findViewById(R.id.reservationDate);
-        this.waitingPosition = (TextView) itemRoot.findViewById(R.id.waitingPosition);
+        view = (TextView) itemRoot.findViewById(R.id.textView);
+        nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
+        expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
+        manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
+        condition = (TextView) itemRoot.findViewById(R.id.condition);
+        price = (TextView) itemRoot.findViewById(R.id.price);
+        inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        reservationDate = (TextView) itemRoot.findViewById(R.id.reservationDate);
+        waitingPosition = (TextView) itemRoot.findViewById(R.id.waitingPosition);
+        cancelReservationButton = (Button) itemRoot.findViewById(R.id.cancelReservation);
     }
 
     @Override
-    public void bind(Reservation reservation, boolean expanded) {
-        Gadget g = reservation.getGadget();
+    public void bind(final Reservation reservation, boolean expanded) {
+        final Gadget g = reservation.getGadget();
 
         Drawable finishedIcon = view.getContext().getResources().getDrawable(android.R.drawable.presence_online);
         finishedIcon.setBounds(0, 0, 60, 60);
@@ -61,6 +67,24 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD);
         reservationDate.setText(dateFormat.format(reservation.getReservationDate()));
         waitingPosition.setText(Integer.toString(reservation.getWatingPosition()));
+
+        cancelReservationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LibraryService.deleteReservation(reservation, new Callback<Boolean>() {
+                    @Override
+                    public void onCompletion(Boolean input) {
+                        Toast.makeText(view.getContext(), "Reservation of " + g.getName() + " has been cancelled.", Toast.LENGTH_SHORT).show();
+                        getListAdapter().refresh();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(view.getContext(), "Error when trying to cancel reservation of " + g.getName() + ".", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         if (expanded) {
             view.setVisibility(View.GONE);

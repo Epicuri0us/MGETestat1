@@ -32,10 +32,11 @@ public class ListAdapter<ViewHolder extends ItemViewHolder, Item> extends Recycl
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(rowlayout, parent, false);
         try {
-            holder = viewHolderClass.getDeclaredConstructor(View.class).newInstance(v);
+            holder = viewHolderClass.getDeclaredConstructor(View.class, ListAdapter.class).newInstance(v, this);
         } catch (Exception e) {
             Log.e(ListAdapter.class.getSimpleName(), "Couldn't instantiate ViewHolder (blame Java Type Erasure)");
         }
+
         return holder;
     }
 
@@ -70,5 +71,9 @@ public class ListAdapter<ViewHolder extends ItemViewHolder, Item> extends Recycl
             expandedPosition = position;
         }
         notifyItemChanged(expandedPosition);
+    }
+
+    public void refresh() {
+        // TODO: Refresh list
     }
 }

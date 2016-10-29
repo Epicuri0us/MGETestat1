@@ -2,6 +2,7 @@ package testat.hsr.gadgeothek;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import java.text.SimpleDateFormat;
 
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Loan;
+import testat.hsr.gadgeothek.service.LibraryService;
 
 public class LoanViewHolder extends ItemViewHolder<Loan> {
 
@@ -24,9 +26,8 @@ public class LoanViewHolder extends ItemViewHolder<Loan> {
     private TextView returnDate;
     private TextView overdue;
 
-
-    public LoanViewHolder(View itemRoot) {
-        super(itemRoot);
+    public LoanViewHolder(View itemRoot, ListAdapter listAdapter) {
+        super(itemRoot, listAdapter);
         this.setParent(itemRoot);
 
         view = (TextView) itemRoot.findViewById(R.id.textView);

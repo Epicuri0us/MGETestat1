@@ -1,10 +1,15 @@
 package testat.hsr.gadgeothek;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import testat.hsr.gadgeothek.domain.Gadget;
+import testat.hsr.gadgeothek.service.Callback;
+import testat.hsr.gadgeothek.service.LibraryService;
 
 
 public class GadgetViewHolder extends ItemViewHolder<Gadget> {
@@ -16,28 +21,48 @@ public class GadgetViewHolder extends ItemViewHolder<Gadget> {
     private TextView condition;
     private TextView price;
     private TextView inventorynr;
+    private Button reserveButton;
 
-    public GadgetViewHolder(View itemRoot) {
-        super(itemRoot);
+    public GadgetViewHolder(View itemRoot, ListAdapter listAdapter) {
+        super(itemRoot, listAdapter);
         this.setParent(itemRoot);
 
-        this.view = (TextView) itemRoot.findViewById(R.id.textView);
-        this.nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
-        this.expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
-        this.manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
-        this.condition = (TextView) itemRoot.findViewById(R.id.condition);
-        this.price = (TextView) itemRoot.findViewById(R.id.price);
-        this.inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        view = (TextView) itemRoot.findViewById(R.id.textView);
+        nameInner = (TextView) itemRoot.findViewById(R.id.gadgetNameInner);
+        expandable = (LinearLayout) itemRoot.findViewById(R.id.expandableText);
+        manufacturer = (TextView) itemRoot.findViewById(R.id.manufacturer);
+        condition = (TextView) itemRoot.findViewById(R.id.condition);
+        price = (TextView) itemRoot.findViewById(R.id.price);
+        inventorynr = (TextView) itemRoot.findViewById(R.id.inventorynr);
+        reserveButton = (Button) itemRoot.findViewById(R.id.reserve);
     }
 
     @Override
-    public void bind(Gadget g, boolean expanded) {
+    public void bind(final Gadget g, boolean expanded) {
         view.setText(g.getName());
         nameInner.setText(g.getName());
         inventorynr.setText(g.getInventoryNumber());
         price.setText(Double.toString(g.getPrice()));
         condition.setText(g.getCondition().toString());
         manufacturer.setText(g.getManufacturer());
+
+        reserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LibraryService.reserveGadget(g, new Callback<Boolean>() {
+                    @Override
+                    public void onCompletion(Boolean input) {
+                        Toast.makeText(view.getContext(), g.getName() + " has been reserved.", Toast.LENGTH_SHORT).show();
+                        getListAdapter().refresh();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(view.getContext(), "Error when trying to reserve " + g.getName() + ".", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         if (expanded) {
             view.setVisibility(View.GONE);
