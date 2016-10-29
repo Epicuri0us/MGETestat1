@@ -1,6 +1,5 @@
 package testat.hsr.gadgeothek;
 
-import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
     @Override
     public GadgetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.rowlayout,parent,false);
+        View v = inflater.inflate(R.layout.gadget_rowlayout,parent,false);
         GadgetViewHolder viewHolder = new GadgetViewHolder(v);
         return viewHolder;
     }
@@ -61,10 +60,10 @@ public class GadgetAdapter extends RecyclerView.Adapter<GadgetAdapter.GadgetView
         Gadget g = gadgetList.get(position);
         holder.view.setText(g.getName());
         holder.nameInner.setText(g.getName());
-        holder.inventorynr.setText("Inventorynumber: " +g.getInventoryNumber());
-        holder.price.setText("Price: "+ g.getPrice());
-        holder.condition.setText("Condition: "+g.getCondition());
-        holder.manufacturer.setText("Manufacturer: "+ g.getManufacturer());
+        holder.inventorynr.setText(g.getInventoryNumber());
+        holder.price.setText(Double.toString(g.getPrice()));
+        holder.condition.setText(g.getCondition().toString());
+        holder.manufacturer.setText(g.getManufacturer());
 
         if (position == expandedPosition) {
             holder.view.setVisibility(View.GONE);

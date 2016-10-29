@@ -1,5 +1,6 @@
 package testat.hsr.gadgeothek;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,12 +34,22 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
     @Override
     public void bind(Reservation reservation, boolean expanded) {
         Gadget g = reservation.getGadget();
+
+        Drawable finishedIcon = view.getContext().getResources().getDrawable(android.R.drawable.presence_online);
+        finishedIcon.setBounds(0, 0, 60, 60);
+
+        if(reservation.getFinished()) {
+            view.setCompoundDrawables(null, null, finishedIcon, null);
+            nameInner.setCompoundDrawables(null, null, finishedIcon, null);
+        }
+
         view.setText(g.getName());
         nameInner.setText(g.getName());
-        inventorynr.setText("Inventorynumber: " + g.getInventoryNumber());
-        price.setText("Price: " + g.getPrice());
-        condition.setText("Condition: " + g.getCondition());
-        manufacturer.setText("Manufacturer: " + g.getManufacturer());
+
+        inventorynr.setText(g.getInventoryNumber());
+        price.setText(Double.toString(g.getPrice()));
+        condition.setText(g.getCondition().toString());
+        manufacturer.setText(g.getManufacturer());
 
         if (expanded) {
             view.setVisibility(View.GONE);

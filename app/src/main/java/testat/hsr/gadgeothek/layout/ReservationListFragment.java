@@ -50,7 +50,7 @@ public class ReservationListFragment extends Fragment {
             public void onCompletion(List<Reservation> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, ReservationViewHolder.class);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, ReservationViewHolder.class, R.layout.reservation_rowlayout);
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);

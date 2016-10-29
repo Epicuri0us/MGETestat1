@@ -47,7 +47,7 @@ public class GadgetListFragment extends Fragment {
             public void onCompletion(List<Gadget> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class, R.layout.gadget_rowlayout);
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);

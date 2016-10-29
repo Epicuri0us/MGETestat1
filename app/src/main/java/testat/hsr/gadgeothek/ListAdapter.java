@@ -1,13 +1,12 @@
 package testat.hsr.gadgeothek;
 
-import android.nfc.Tag;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
@@ -19,17 +18,19 @@ public class ListAdapter<ViewHolder extends ItemViewHolder, Item> extends Recycl
     private ItemSelectionListener selectionListener;
     private int expandedPosition = -1;
     private ViewHolder holder;
+    private int rowlayout;
 
-    public ListAdapter(List<Item> itemList, ItemSelectionListener selectionListener, Class<ViewHolder> holderClass){
+    public ListAdapter(List<Item> itemList, ItemSelectionListener selectionListener, Class<ViewHolder> holderClass, @LayoutRes int rowlayout){
         this.itemList = itemList;
         this.selectionListener = selectionListener;
         this.viewHolderClass = holderClass;
+        this.rowlayout = rowlayout;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.rowlayout, parent, false);
+        View v = inflater.inflate(rowlayout, parent, false);
         try {
             holder = viewHolderClass.getDeclaredConstructor(View.class).newInstance(v);
         } catch (Exception e) {

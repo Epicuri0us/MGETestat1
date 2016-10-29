@@ -52,7 +52,7 @@ public class LoanListFragment extends Fragment {
             public void onCompletion(List<Loan> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, LoanViewHolder.class);
+                listAdapter = new ListAdapter<>(input, itemSelectionCallback, LoanViewHolder.class, R.layout.loan_rowlayout);
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);

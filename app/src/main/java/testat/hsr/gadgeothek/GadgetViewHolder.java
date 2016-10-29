@@ -34,10 +34,10 @@ public class GadgetViewHolder extends ItemViewHolder<Gadget> {
     public void bind(Gadget g, boolean expanded) {
         view.setText(g.getName());
         nameInner.setText(g.getName());
-        inventorynr.setText("Inventorynumber: " + g.getInventoryNumber());
-        price.setText("Price: "+ g.getPrice());
-        condition.setText("Condition: " + g.getCondition());
-        manufacturer.setText("Manufacturer: " + g.getManufacturer());
+        inventorynr.setText(g.getInventoryNumber());
+        price.setText(Double.toString(g.getPrice()));
+        condition.setText(g.getCondition().toString());
+        manufacturer.setText(g.getManufacturer());
 
         if (expanded) {
             view.setVisibility(View.GONE);
