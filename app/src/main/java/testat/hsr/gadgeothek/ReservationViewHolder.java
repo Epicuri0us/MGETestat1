@@ -75,7 +75,8 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
                     @Override
                     public void onCompletion(Boolean input) {
                         Toast.makeText(view.getContext(), "Reservation of " + g.getName() + " has been cancelled.", Toast.LENGTH_SHORT).show();
-                        getListAdapter().refresh();
+
+                        card.startAnimation(slideOutAnimation);
                     }
 
                     @Override

@@ -1,7 +1,11 @@
 package testat.hsr.gadgeothek;
 
-import android.content.Context;
+import android.animation.Animator;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ public class GadgetViewHolder extends ItemViewHolder<Gadget> {
     private TextView inventorynr;
     private Button reserveButton;
 
+
     public GadgetViewHolder(View itemRoot, ListAdapter listAdapter) {
         super(itemRoot, listAdapter);
         this.setParent(itemRoot);
@@ -38,7 +43,7 @@ public class GadgetViewHolder extends ItemViewHolder<Gadget> {
     }
 
     @Override
-    public void bind(final Gadget g, boolean expanded) {
+    public void bind(final Gadget g, final boolean expanded) {
         view.setText(g.getName());
         nameInner.setText(g.getName());
         inventorynr.setText(g.getInventoryNumber());
@@ -53,7 +58,8 @@ public class GadgetViewHolder extends ItemViewHolder<Gadget> {
                     @Override
                     public void onCompletion(Boolean input) {
                         Toast.makeText(view.getContext(), g.getName() + " has been reserved.", Toast.LENGTH_SHORT).show();
-                        getListAdapter().refresh();
+
+                        card.startAnimation(slideOutAnimation);
                     }
 
                     @Override
