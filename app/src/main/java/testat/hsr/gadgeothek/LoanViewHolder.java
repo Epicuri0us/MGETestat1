@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Loan;
@@ -57,11 +58,10 @@ public class LoanViewHolder extends ItemViewHolder<Loan> {
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD);
         pickupDate.setText(dateFormat.format(loan.getPickupDate()));
-        try {
-            returnDate.setText(dateFormat.format(loan.getReturnDate()));
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
+
+        Date date = loan.getReturnDate();
+        if(date != null)
+            returnDate.setText(dateFormat.format(date));
 
         if(loan.isOverdue()) {
             overdue.setVisibility(View.VISIBLE);
