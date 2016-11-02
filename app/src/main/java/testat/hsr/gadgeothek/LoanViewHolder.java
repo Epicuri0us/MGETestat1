@@ -59,7 +59,7 @@ public class LoanViewHolder extends ItemViewHolder<Loan> {
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.DATE_FIELD);
         pickupDate.setText(dateFormat.format(loan.getPickupDate()));
 
-        Date date = loan.getReturnDate();
+        Date date = loan.overDueDate();
         if(date != null)
             returnDate.setText(dateFormat.format(date));
 

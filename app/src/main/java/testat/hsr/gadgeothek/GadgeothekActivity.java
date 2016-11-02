@@ -8,19 +8,24 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.layout.GadgetListFragment;
 import testat.hsr.gadgeothek.layout.LoanListFragment;
 import testat.hsr.gadgeothek.layout.ReservationListFragment;
+import testat.hsr.gadgeothek.service.Callback;
+import testat.hsr.gadgeothek.service.LibraryService;
 
 public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
 
     private Toolbar toolbar;
     private PagerAdapter pagerAdapter;
+    private static final String TAG = GadgeothekActivity.class.getSimpleName();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,20 +37,8 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.reservationmenu:
-                toolbar.setTitle("Reservations");
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new ReservationListFragment());
-                break;
-            case R.id.loansmenu:
-                toolbar.setTitle("Loans");
-                setSupportActionBar(toolbar);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                handleFragment(new LoanListFragment());
+            case R.id.logoutmenu:
+                logout();
                 break;
         }
         return true;
@@ -66,7 +59,7 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
             ft = fm.beginTransaction();
             ft.replace(R.id.fragment, f,backStateName);
         }
-        ft.commitAllowingStateLoss();
+        ft.commit();
     }
 
     @Override
@@ -92,6 +85,7 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                toolbar.setTitle(tab.getText());
                 pagerAdapter.notifyDataSetChanged();
             }
 
@@ -105,28 +99,27 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
 
     @Override
     public void onItemSelected(int position) {
-        // TODO: 21.10.2016 Transition to new Fragment with detailView and reservation
     }
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        FragmentTransaction ft = fm.beginTransaction();
-        if (count == 0) {
-            super.onBackPressed();
-            //additional code
-        } else {
-            for(Fragment f: fm.getFragments()){
-                ft.remove(f);
-            }
-            handleFragment(new GadgetListFragment());
-            toolbar.setTitle("Gadgets");
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            //super.onBackPressed();
-        }
+        logout();
     }
 
     public PagerAdapter getPagerAdapter() { return pagerAdapter; }
+
+    private void logout(){
+        LibraryService.logout(new Callback<Boolean>() {
+            @Override
+            public void onCompletion(Boolean input) {
+                Toast.makeText(getBaseContext(), "successfully logged out", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.d(TAG, "onError() called with: message = [" + message + "]");
+            }
+        });
+    }
 }

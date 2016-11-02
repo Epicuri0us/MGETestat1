@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()){
             case R.id.settingsmenu:
                 handleFragment(new ServerLoginFragment());
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        LibraryService.setServerAddress("http://mge1.dev.ifs.hsr.ch/public");
+        LibraryService.setServerAddress("http://10.0.2.2:8080/public");
         handleFragment(new LoginFragment());
     }
 
@@ -71,10 +70,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LibraryService.register(email, password, name, matrikelnummer, new Callback<Boolean>() {
             @Override
             public void onCompletion(Boolean input) {
-                //LoginHelper(email,password);
-                // TODO: 20.10.2016 test argumentübergabe mit backbutton (autofill in fragment)
-                //Intent intent = new Intent(getBaseContext(), GadgeothekActivity.class);
-                //startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Registration ok", Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getSupportFragmentManager();
                 fm.popBackStack();
@@ -90,12 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void LoginHelper(String email, String password) {
-        // TODO: 20.10.2016 example login, to be removed
-        String userExample = "m@hsr.ch";
-        String passwordExample = "12345";
-
-
-        LibraryService.login(userExample, passwordExample, new Callback<Boolean>() {
+        LibraryService.login(email, password, new Callback<Boolean>() {
             @Override
             public void onCompletion(Boolean input) {
                 Toast.makeText(getApplicationContext(), "Login ok", Toast.LENGTH_SHORT).show();
@@ -111,20 +101,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+
     private void handleFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         String backStateName = fragment.getClass().getName();
         Fragment f = fm.findFragmentByTag(backStateName);
-
         if(f == null){
             ft.replace(R.id.fragment, fragment,backStateName);
             ft.addToBackStack(backStateName);
         }else{
             ft.replace(R.id.fragment, f,backStateName);
         }
-
-
         ft.commit();
     }
 }

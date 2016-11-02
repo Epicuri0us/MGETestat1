@@ -51,7 +51,7 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
         Drawable finishedIcon = view.getContext().getResources().getDrawable(android.R.drawable.presence_online);
         finishedIcon.setBounds(0, 0, 60, 60);
 
-        if(reservation.getFinished()) {
+        if(reservation.isReady()) {
             view.setCompoundDrawables(null, null, finishedIcon, null);
             nameInner.setCompoundDrawables(null, null, finishedIcon, null);
         }
