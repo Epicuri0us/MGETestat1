@@ -19,8 +19,6 @@
     <string name="prompt_name">Name</string>
     <string name="prompt_matrikelnummer">Matriculation number</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_gadgeothek">GadgeothekActivity</string>
     <string name="title_activity_test">Sign in</string>
 </resources>

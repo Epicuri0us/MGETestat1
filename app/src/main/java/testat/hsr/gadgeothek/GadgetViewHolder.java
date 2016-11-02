@@ -1,11 +1,6 @@
 package testat.hsr.gadgeothek;
 
-import android.animation.Animator;
-import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;

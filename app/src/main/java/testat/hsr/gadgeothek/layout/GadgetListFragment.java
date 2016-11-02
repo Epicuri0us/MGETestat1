@@ -1,8 +1,6 @@
 package testat.hsr.gadgeothek.layout;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,12 +11,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import testat.hsr.gadgeothek.GadgeothekActivity;
 import testat.hsr.gadgeothek.GadgetViewHolder;
 import testat.hsr.gadgeothek.ListAdapter;
-import testat.hsr.gadgeothek.PagerAdapter;
 import testat.hsr.gadgeothek.R;
-import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
@@ -47,7 +42,7 @@ public class GadgetListFragment extends ListFragment {
             public void onCompletion(List<Gadget> input) {
                 layoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(layoutManager);
-                listAdapter = new ListAdapter<>(input, itemSelectionCallback, GadgetViewHolder.class, R.layout.gadget_rowlayout, activity.getPagerAdapter());
+                listAdapter = new ListAdapter<>(input, GadgetViewHolder.class, R.layout.gadget_rowlayout, activity.getPagerAdapter());
                 recyclerView.setAdapter(listAdapter);
 
                 noEntries.setVisibility(input.isEmpty() ? View.VISIBLE : View.GONE);

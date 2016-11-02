@@ -14,14 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import testat.hsr.gadgeothek.communication.ItemSelectionListener;
 import testat.hsr.gadgeothek.layout.GadgetListFragment;
-import testat.hsr.gadgeothek.layout.LoanListFragment;
-import testat.hsr.gadgeothek.layout.ReservationListFragment;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
 
-public class GadgeothekActivity extends AppCompatActivity implements ItemSelectionListener {
+public class GadgeothekActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private PagerAdapter pagerAdapter;
@@ -44,24 +41,6 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         return true;
     }
 
-    private void handleFragment(Fragment fragment){
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        String backStateName = fragment.getClass().getName();
-        Fragment f = fm.findFragmentByTag(backStateName);
-
-        if(f == null){
-            ft.replace(R.id.fragment, fragment,backStateName);
-            ft.addToBackStack(backStateName);
-        }else{
-            ft.remove(f);
-            ft.commit();
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment, f,backStateName);
-        }
-        ft.commit();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +48,10 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Gadgets");
         setSupportActionBar(toolbar);
-        handleFragment(new GadgetListFragment());
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragment, new GadgetListFragment());
+        ft.commit();
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Gadgets"));
@@ -95,10 +77,6 @@ public class GadgeothekActivity extends AppCompatActivity implements ItemSelecti
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
-    }
-
-    @Override
-    public void onItemSelected(int position) {
     }
 
     @Override

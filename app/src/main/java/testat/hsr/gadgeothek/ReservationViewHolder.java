@@ -1,6 +1,7 @@
 package testat.hsr.gadgeothek;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,6 +15,8 @@ import testat.hsr.gadgeothek.domain.Gadget;
 import testat.hsr.gadgeothek.domain.Reservation;
 import testat.hsr.gadgeothek.service.Callback;
 import testat.hsr.gadgeothek.service.LibraryService;
+
+import static android.content.ContentValues.TAG;
 
 public class ReservationViewHolder extends ItemViewHolder<Reservation> {
 
@@ -81,6 +84,7 @@ public class ReservationViewHolder extends ItemViewHolder<Reservation> {
 
                     @Override
                     public void onError(String message) {
+                        Log.d(TAG, "onError() called with: message = [" + message + "]");
                         Toast.makeText(view.getContext(), "Error when trying to cancel reservation of " + g.getName() + ".", Toast.LENGTH_SHORT).show();
                     }
                 });
